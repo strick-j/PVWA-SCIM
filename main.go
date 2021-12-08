@@ -34,14 +34,18 @@ func main() {
 
 	views.PopulateTemplates()
 
+	http.Handle("/static/", http.FileServer(http.Dir("public")))
+
+	http.HandleFunc("/", views.ShowMainFunc)
+
 	//these handlers are for users
-	http.HandleFunc("/users/", views.RequiresLogin(views.ShowUserFunc))
+	http.HandleFunc("/users/", views.ShowUserFunc)
 
 	//these handlers are for groups
-	http.HandleFunc("/groups/", views.RequiresLogin(views.ShowGroupsFunc))
+	http.HandleFunc("/groups/", views.ShowGroupsFunc)
 
 	//these handlers are for main
-	http.HandleFunc("/home/", views.RequiresLogin(views.ShowMainFunc))
+	http.HandleFunc("/home/", views.ShowMainFunc)
 
 	log.Println("running server on ", values.ServerPort)
 	log.Fatal(http.ListenAndServe(values.ServerPort, nil))
