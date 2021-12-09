@@ -34,9 +34,8 @@ func main() {
 
 	views.PopulateTemplates()
 
-	http.Handle("/static/", http.FileServer(http.Dir("public")))
-
-	http.HandleFunc("/", views.ShowMainFunc)
+	fs := http.FileServer(http.Dir("./public"))
+	http.Handle("/static/", fs)
 
 	//these handlers are for users
 	http.HandleFunc("/users/", views.ShowUserFunc)
